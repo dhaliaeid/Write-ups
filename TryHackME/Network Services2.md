@@ -70,9 +70,52 @@ this folder anywhere on your system.Now, use the "mount" command to connect the 
        - cat is_rsa.pub            "to get the username"
        - sudo ssh -i id_rsa cappucino@10.10.57.87     "to access remotly" 
 ## Exploiting NFS
-#### What is root_squash?
-Root Squashing is enabled by default on NFS shares, and prevents anyone connecting to the NFS share from having root access to the NFS volume.
-#### SUID
+
+- Root Squashing is enabled by default on NFS shares, and prevents anyone connecting to the NFS share from having root access to the NFS volume.
+- If the root squashing is turned off, it can allow the creation of SUID bit files, allowing a remote user root access to the connected system.
+##### what are files with the SUID bit set?
+the file or files can be run with the permissions of the file(s)owner/group.
+**_Answers_**
+
+      First, change directory to the mount point on your machine, where the NFS            share should still be mounted, and then into the user's home directory.
+       ###### password is password 
+   
+   
+![image](https://github.com/user-attachments/assets/6149195f-946d-4797-b0e2-fc8d6b7530ac)
+
+
+
+      Download the bash executable to your Downloads directory. Then use "cp                ~/Downloads/bash ." to copy the bash executable to the NFS share. The             copied bash shell must be owned by a root user, you can set this using "sudo       chown root bash"
+      1- copy the  .bash from  its directory to the nfs share 
+   
+  ![image](https://github.com/user-attachments/assets/65039afd-37f6-4bb5-b3c4-bf0447447982)
+
+      2- change the file owner by a root user
+
+   ![image](https://github.com/user-attachments/assets/59a39c19-2545-45f1-af53-e8dd512f789f)
+
+      Now, we're going to add the SUID bit permission to the bash executable we           just copied to the share using "sudo chmod +[permission] bash". What letter         do we use to set the SUID bit set using chmod?
+      - s
+   
+   ![image](https://github.com/user-attachments/assets/6a879b90-ce73-485b-88af-526ce71d2505)
+
+      Let's do a sanity check, let's check the permissions of the "bash" executable       using "ls -la bash". What does the permission set look like? Make sure              that it ends with -sr-x.
+      - -rwxr-xr-x
+      Now, SSH into the machine as the user. List the directory to make sure the          bash executable is there. Now, the moment of truth. Lets run it with
+      "./bash -p". The -p persists the permissions, so that it can run as root with       SUID- as otherwise bash will sometimes drop the permissions.
+      Great! If all's gone well you should have a shell as root! What's the root          flag?
+      - THM{nfs_got_pwned}
+
+   ![image](https://github.com/user-attachments/assets/e638c2f3-5f1f-44c8-a08a-eb9caa6f7ce4)
+.![image](https://github.com/user-attachments/assets/18ea8c1e-720a-4fff-85ed-695677d6696a)
+![image](https://github.com/user-attachments/assets/f3ccd626-31ec-4b11-9e93-ce1caf9ff177)
+
+
+
+      
+      
+   
+
 
 
 
