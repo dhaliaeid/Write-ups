@@ -19,21 +19,20 @@ Using the NFS protocol, you can transfer files between computers running `Window
 
 #### What is Enumeration?
 the process which establishes an active connection to the target hosts to discover potential attack vectors in the system, and the same can be used for further exploitation of the system.
-###### Enumeration is used to gather the following:
+##### Enumeration is used to gather the following:
  Usernames, group names ,Hostnames, Network shares and services, IP tables and routing tables
  Service settings and audit configurations, Application and banners, SNMP and DNS details
- #### NFS-Common
+#### NFS-Common
 It's a package includes programs such as: lockd, statd, showmount, nfsstat, gssd, idmapd and mount.nfs.
-We are concerned with `showmount` and `mount.nfs` as these are useful when it comes to extracting information from the NFS share.
-###### Nfs-common installation
+We are concerned with `showmount` and `mount.nfs` as these are useful when it comes to extracting information from the NFS share.to install use:
 
     sudo apt-get install nfs-common
     
-##### Enumeration steps
-1. **Port scanning** (_to find out as much information as you can about the services, open ports and operating system of the target machine_) using nmap with the -A and -p- tags.
+#### Enumeration steps
+1. **Port scanning** :to find out as much information as you can about the services, open ports and operating system of the target machine using `nmap` with the `-A` and `-p-` tags.
 2. **Mounting NFS shares** : The client’s system needs a directory where all the content shared by the host server in the export folder can be accessed.create
 this folder anywhere on your system.Now, use the "mount" command to connect the NFS share to the mount point on client's machine.
-###### creat the mount point with
+##### creat the mount point with
 
     sudo mount -t nfs IP:share /tmp/mount/ -nolock
     
@@ -70,12 +69,12 @@ this folder anywhere on your system.Now, use the "mount" command to connect the 
 
 ## Exploiting NFS
 
-- Root Squashing is `enabled` by default on NFS shares, and prevents anyone connecting to the NFS share from having root access to the NFS volume.
-- If the root squashing is turned off, it can allow the creation of SUID bit files, allowing a remote user root access to the connected system.
-- 
-##### what are files with the SUID bit set?
+- Root Squashing is enabled by default on `NFS shares`, and prevents anyone connecting to the NFS share from having `root` access to the NFS volume.
+- If the root squashing is turned off, it can allow the creation of `SUID` bit files, allowing a remote user root access to the connected system.
+  
+##### What are files with the SUID bit set?
 
-the file or files can be run with the permissions of the file(s)owner/group.
+The files can be run with the permissions of the file(s) owner/group.
 
 **_Answers_**
 
@@ -110,25 +109,26 @@ second: change the file owner by a root user
 
 7. What option do we need to set to the wordlist's path?
 
-to install seclist with kali : 
+  to install seclist with kali : 
 
 ![image](https://github.com/user-attachments/assets/6782606c-653a-48ec-bd52-eaa93ce3287e)
 
 ![image](https://github.com/user-attachments/assets/34784548-c9ce-47f5-b0ca-1bded73a9a18)
 
-2. what is the other essential paramater we need to set?
+8. what is the other essential paramater we need to set?
 
 ![image](https://github.com/user-attachments/assets/7e70a7be-9406-4d06-97d3-05bafaa108a7)
 
-3.what username is returned?
+9.what username is returned?
 
 ![image](https://github.com/user-attachments/assets/b76645a5-80d2-4a6b-b154-8fb5649f271b)
 
 ## Exploiting SMTP
+
 In the Enumeration section, we obtained key information: a user account name, the SMTP server type, and the operating system. The only other open port is SSH, which we'll attempt to brute-force using Hydra to gain access.
 
 #### Using Hydra
-`Hydra`, is a tool for customizable, adaptive password attacks against services like SSH. Hydra primarily uses dictionary attacks, and wordlists can be found in `/usr/share/wordlists` including `rockyou.txt` Additional wordlists can be sourced from SecLists for broader use.
+`Hydra`, is a tool for customizable, adaptive password attacks against services like SSH. Hydra primarily uses dictionary attacks, and wordlists can be found in `/usr/share/wordlists` including `rockyou.txt` Additional wordlists can be sourced from `SecLists` for broader use.
 
       hydra -t 16 -l USERNAME -P /usr/share/wordlists/rockyou.txt -vV MACHINE_IP ssh
 
@@ -147,11 +147,11 @@ In the Enumeration section, we obtained key information: a user account name, th
 
 
 ## Understanding MySQL
-`MySQL` is a relational database management system (RDBMS) that uses SQL (Structured Query Language) to manage and interact with structured data. Here’s a breakdown:
 
+`MySQL` is a relational database management system (RDBMS) that uses SQL (Structured Query Language) to manage and interact with structured data. Here’s a breakdown:
  - **Database**: A structured, organized collection of persistent data.
  - **RDBMS**: Software that creates and manages databases using a relational model, organizing data into tables that connect through keys.
- - **SQL**: The language used for database communication. MySQL uses SQL in a client-server model for data handling.
+ - **SQL**: The language used for database communication. MySQL uses SQL in a `client-server` model for data handling.
 
 ##### How MySQL Works
 The MySQL server processes client requests (like creating or accessing data) by following these steps:
@@ -165,8 +165,8 @@ MySQL runs on various platforms (e.g., Linux, Windows) and is widely used as a b
 
 ![image](https://github.com/user-attachments/assets/da728627-22d6-4d25-af8c-c9e58b1a9026)
 
-
 ## Enumerating MySQL
+
 ##### When to Attack MySQL
 MySQL isn’t usually the first service targeted for initial information gathering on a server. While you could brute-force default MySQL passwords if lacking other info, most CTFs won’t require this approach.
 ##### Scenario
@@ -207,7 +207,7 @@ Before further exploiting the MySQL database, here’s what we know:
 3. Number of databases and their names.
 
 #### Key Terminology
-**Schema**: In MySQL, `schema` is interchangeable with `database`. For example, CREATE SCHEMA can be used in place of CREATE DATABASE. Note that in some database systems, like Oracle, schema only refers to part of a database (tables and objects owned by a user).
+**Schema**: In MySQL, schema is interchangeable with database. For example, `CREATE SCHEMA` can be used in place of `CREATE DATABASE`. Note that in some database systems, like Oracle, schema only refers to part of a database (tables and objects owned by a user).
 **Hashes**: A cryptographic process that turns variable-length input into a fixed-length output. In MySQL, hashes are used for password storage (protecting against plaintext storage) and data indexing, enabling efficient searching and access.
 
 **_Answers_**
