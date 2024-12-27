@@ -1,4 +1,4 @@
-# Network services 2(NFS, SMTP, and MySQL)
+![image](https://github.com/user-attachments/assets/f7f7f1fd-79b8-4419-aaf7-6f6f24e1e385)# Network services 2(NFS, SMTP, and MySQL)
 
 ## Overview
 
@@ -15,7 +15,7 @@ Also Gaining root access through SUID exploitation when root squashing is disabl
 
 Each section will explain how these services interact and demonstrate how a small piece of information obtained from one service can lead to full system compromise when chained together. We’ll use tools, commands, and techniques relevant to real-world penetration testing scenarios.
 
-## Understanding NFS
+1. ## Understanding NFS
 
 #### What is NFS?
 Network File System (NFS) allows systems to share directories and files over a network, enabling seamless access across devices. It is widely used in environments requiring shared storage.
@@ -23,8 +23,7 @@ Network File System (NFS) allows systems to share directories and files over a n
 NFS facilitates shared access to files and directories across platforms like Windows, Linux, and macOS. However, its misconfigurations, such as improper permissions or disabled root squashing, often create security vulnerabilities. 
 
 #### How NFS Works
-![image](https://github.com/user-attachments/assets/2a6096b6-ed86-40e6-886f-f967fad2dff8)
-
+![image](image.png)
 
 1. Mounting a Directory: A client requests to mount a directory from the NFS server.
 
@@ -40,7 +39,7 @@ NFS facilitates shared access to files and directories across platforms like Win
    
 ![image](https://github.com/user-attachments/assets/9ca8078b-d3c0-4917-9495-7498e6006e9e)
 
-## Enumerating NFS
+2. ## Enumerating NFS
 
 #### What is Enumeration?
 
@@ -150,17 +149,65 @@ second: change the file owner by a root user
 
 ![image](https://github.com/user-attachments/assets/b76645a5-80d2-4a6b-b154-8fb5649f271b)
 
-4. SMTP Enumeration and Exploitation
 
-In the Enumeration section, we obtained key information: a user account name, the SMTP server type, and the operating system. The only other open port is SSH, which we'll attempt to brute-force using Hydra to gain access.
 
-#### Using Hydra
+## Understanding STMP
+SMTP (Simple Mail Transfer Protocol) is a standard protocol used for sending emails. It works alongside POP (Post Office Protocol) or IMAP (Internet Message Access Protocol) to handle email communication, where SMTP manages outgoing mail while POP/IMAP handles incoming mail.
+
+#### Key Functions of an SMTP Server:
+**Authentication**: Verifies the sender's identity.
+**Mail Delivery**: Sends outgoing mail to the recipient's server.
+**Error Handling**: Returns undelivered mail to the sender.
+
+SMTP configuration is often required when setting up email clients (e.g., Thunderbird) for outgoing emails.
+SMTP server software is available for windows(Native server options) and linux (Multiple open-source SMTP variants).
+
+#### How SMTP Works
+SMTP operates like a digital postal service, delivering emails through a structured process:
+
+
+![image](https://github.com/user-attachments/assets/73d09d95-6918-4eb1-b3b0-68fb854c9412)
+
+
+1. **Connection**: Your email client connects to the SMTP server (e.g., smtp.google.com) via port 25, initiating an SMTP handshake.
+2. **Email Submission**: The client sends the sender’s address, recipient’s address, email body, and attachments to the SMTP server.
+3. **Domain Check**: The SMTP server verifies whether the sender’s and recipient’s domains match.
+4. **Relaying**: The server connects to the recipient’s SMTP server to transfer the email. If unavailable, the message enters an SMTP queue.
+5. **Verification**: The recipient’s SMTP server confirms the domain and username.
+6.** Delivery**: The email is passed to the recipient’s POP/IMAP server, where it appears in the inbox.
+
+**_THM Section Answers_**
+
+
+![image](https://github.com/user-attachments/assets/f1d679d1-9a91-4d6e-bc23-4451a5941de0)
+
+## SMTP Enumeration
+
+SMTP (Simple Mail Transfer Protocol) is not only essential for email communication but can also be leveraged for reconnaissance during a penetration test or attack. By enumerating server details and users, an attacker can gather crucial information, such as vulnerable mail server versions and valid email addresses, to further their exploit efforts.
+1. **Server Fingerprinting with Metasploit**
+Use the smtp_version module in Metasploit to scan IP ranges and identify the versions of mail servers. This helps in targeting poorly configured or vulnerable servers.
+2. **User Enumeration via SMTP**
+SMTP also provides two internal commands, VRFY and EXPN, that can be exploited to enumerate valid email users and their aliases:
+**VRFY**: Confirms whether an email address is valid on the server.
+**EXPN**: Reveals mailing lists and the actual addresses of aliases.
+Using these commands, an attacker can gather a list of valid users or identify valuable targets. While these commands can be tested manually via Telnet, Metasploit’s smtp_enum module automates this process, making it easier and faster to enumerate users.
+
+
+##STMP Exploitation
+
+#### SMTP Overview
+
+SMTP (Simple Mail Transfer Protocol) is primarily used for email transmission. Its misconfigurations can leak information about users and servers.
+#### Hydra
 `Hydra`, is a tool for customizable, adaptive password attacks against services like SSH. Hydra primarily uses dictionary attacks, and wordlists can be found in `/usr/share/wordlists` including `rockyou.txt` Additional wordlists can be sourced from `SecLists` for broader use.
 
-      hydra -t 16 -l USERNAME -P /usr/share/wordlists/rockyou.txt -vV MACHINE_IP ssh
+##### Steps for Exploitation
+1. **Enumerate Users**: Use tools like Hydra to brute-force user credentials.
+>> hydra -t 16 -l <username> -P <wordlist> <IP> smtp
+2. **Brute-Force SSH**: Use retrieved credentials to brute-force SSH access.
+>> hydra -t 16 -l <username> -P <wordlist> <IP> ssh
 
-
-**_Answers_**
+**_THM Section Answers_**
 
 1. What is the password of the user we found during our enumeration stage?
 
@@ -175,37 +222,54 @@ In the Enumeration section, we obtained key information: a user account name, th
 
 ## Understanding MySQL
 
-`MySQL` is a relational database management system (RDBMS) that uses SQL (Structured Query Language) to manage and interact with structured data. Here’s a breakdown:
- - **Database**: A structured, organized collection of persistent data.
- - **RDBMS**: Software that creates and manages databases using a relational model, organizing data into tables that connect through keys.
- - **SQL**: The language used for database communication. MySQL uses SQL in a `client-server` model for data handling.
+MySQL is a popular open-source Relational Database Management System (RDBMS) that utilizes SQL (Structured Query Language) to manage and manipulate structured data. It organizes data into tables that can be related to each other through keys. It’s widely used in various applications, from web development to enterprise systems, due to its speed, reliability, and ease of use.
 
-##### How MySQL Works
-The MySQL server processes client requests (like creating or accessing data) by following these steps:
-1. It creates a database with defined table relationships.
-2. Clients use SQL to make requests.
-3. The server responds with the requested data.
-##### MySQL Platforms
+**Key Concepts**:
+**Database**: A structured collection of persistent data.
+**RDBMS**: Software that manages databases by using a relational model, where data is stored in tables.
+**SQL**: The language used to interact with the database for querying, updating, and managing the data.
+
 MySQL runs on various platforms (e.g., Linux, Windows) and is widely used as a backend for websites, often as part of the LAMP stack (Linux, Apache, MySQL, PHP).
 
-**_Answers_**
+##### How MySQL Works
+MySQL follows a client-server architecture where the client sends requests to the MySQL server, which processes those requests and returns the required data.
+
+![image](https://github.com/user-attachments/assets/adab0bdc-f49c-46c3-81d6-72e498d608dc)
+
+**Steps in MySQL Operations:**
+1. **Database Creation**: The server creates a database with defined relationships between tables.
+2. **Client Requests**: Clients use SQL commands to interact with the database, such as querying for data or modifying tables.
+3. **Server Response**: The server processes the request and responds with the requested data or status.
+
+**_THM Section Answers_**
 
 ![image](https://github.com/user-attachments/assets/da728627-22d6-4d25-af8c-c9e58b1a9026)
 
+
+
 ## Enumerating MySQL
 
-##### When to Attack MySQL
-MySQL isn’t usually the first service targeted for initial information gathering on a server. While you could brute-force default MySQL passwords if lacking other info, most CTFs won’t require this approach.
-##### Scenario
-###### Typically, you would obtain credentials from other services, which could then be tested on MySQL. In this scenario, assume you found the credentials "root" from a web server’s subdomain enumeration. After trying SSH unsuccessfully, you attempt logging in to MySQL with these credentials.
+#### When to Target MySQL
 
-##### Requirements
+MySQL is typically not the primary focus during initial enumeration of a server. However, once credentials are obtained from other services, MySQL can be a valuable target. Brute-forcing MySQL passwords is an option, but it's rarely required in CTFs or structured penetration testing exercises.
+**Common Scenarios**
+- **Credential Discovery**: Credentials (e.g., username and password) are uncovered from other sources such as configuration files, subdomain enumeration, or web application vulnerabilities.
+- **Testing Access**: After attempting to use the credentials on other services (e.g., SSH) without success, they are tested on MySQL.
+- **Gaining Access**: Successful login to MySQL opens possibilities to extract sensitive information or escalate privileges.
 
-To connect to MySQL, install the MySQL client with:
+**Example Scenario**: Suppose the credentials root were discovered through web server enumeration. After failing to log in via SSH, you try these credentials on the MySQL service.
 
-      sudo apt install default-mysql-client
+**Requirements for MySQL Enumeration**
+efore interacting with MySQL, ensure the MySQL client is installed on your system. You can install it with the following command:
+>> sudo apt install default-mysql-client
+
+This tool enables you to connect to the MySQL database server and execute SQL commands for enumeration and exploitation.
+
+**Steps of Enumeration**
+1. **Identify Running Port**: Use nmap to locate the MySQL service.
+>>  nmap -p 3306 <target-IP>
       
-**_Answers_**
+**_THM Section Answers_**
 
 1. As always, let's start out with a port scan, so we know what port the service we're trying to attack is running on. What port is MySQL using?
 
@@ -225,6 +289,8 @@ To connect to MySQL, install the MySQL client with:
 
 ![image](https://github.com/user-attachments/assets/a94f2a8f-15e6-481c-b1c4-4d56e279ec46)
 
+
+
 ## Exploit SQL
 
 #### Current Knowledge Recap
@@ -237,7 +303,16 @@ Before further exploiting the MySQL database, here’s what we know:
 **Schema**: In MySQL, schema is interchangeable with database. For example, `CREATE SCHEMA` can be used in place of `CREATE DATABASE`. Note that in some database systems, like Oracle, schema only refers to part of a database (tables and objects owned by a user).
 **Hashes**: A cryptographic process that turns variable-length input into a fixed-length output. In MySQL, hashes are used for password storage (protecting against plaintext storage) and data indexing, enabling efficient searching and access.
 
-**_Answers_**
+**Steps for Exploitation**
+1. **Login to MySQL**: Use credentials obtained from enumeration.
+ >> mysql -u root -p -h <target-IP>
+2. **Dump Schemas and Hashes**:Extract database schemas and password hashes for further analysis.
+
+Hash Cracking
+Use John the Ripper to crack MySQL password hashes:
+>> john hash.txt
+
+**_THM Section Answers_**
 
 1. First, let's search for and select the "mysql_schemadump" module. What's the module's full name?
 
