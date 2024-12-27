@@ -23,7 +23,8 @@ Network File System (NFS) allows systems to share directories and files over a n
 NFS facilitates shared access to files and directories across platforms like Windows, Linux, and macOS. However, its misconfigurations, such as improper permissions or disabled root squashing, often create security vulnerabilities. 
 
 #### How NFS Works
-![image](image.png)
+![image](https://github.com/user-attachments/assets/2a6096b6-ed86-40e6-886f-f967fad2dff8)
+
 
 1. Mounting a Directory: A client requests to mount a directory from the NFS server.
 
