@@ -15,7 +15,7 @@ Also Gaining root access through SUID exploitation when root squashing is disabl
 
 Each section will explain how these services interact and demonstrate how a small piece of information obtained from one service can lead to full system compromise when chained together. We’ll use tools, commands, and techniques relevant to real-world penetration testing scenarios.
 
-1. ## Understanding NFS
+## Understanding NFS
 
 #### What is NFS?
 Network File System (NFS) allows systems to share directories and files over a network, enabling seamless access across devices. It is widely used in environments requiring shared storage.
@@ -40,7 +40,7 @@ NFS facilitates shared access to files and directories across platforms like Win
    
 ![image](https://github.com/user-attachments/assets/9ca8078b-d3c0-4917-9495-7498e6006e9e)
 
-2. ## Enumerating NFS
+## Enumerating NFS
 
 #### What is Enumeration?
 
