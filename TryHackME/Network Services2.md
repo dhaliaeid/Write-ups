@@ -1,44 +1,64 @@
-# Network services 2
-## Understanding NFS
+# Network services 2(NFS, SMTP, and MySQL)
+
+## Overview
+
+This write-up focuses on exploring and exploiting various network services, with a primary emphasis on NFS (Network File System). Additionally, we delve into the enumeration and exploitation of SMTP and MySQL services. Each section is interconnected, showing how vulnerabilities in these services can provide a pathway for attackers to infiltrate systems. By following this structured guide, you’ll gain an understanding of the practical applications of enumeration techniques, misconfiguration exploitation, and lateral movement strategies commonly used in penetration testing.
+
+We’ll cover the following topics:
+
+1. **NFS Basics, Enumeration and xploitation**: Understanding how NFS operates,  enumerating shares, and identifying misconfigurations.
+Also Gaining root access through SUID exploitation when root squashing is disabled.
+
+3. **SMTP Enumeration and Exploitation**: Using enumeration techniques to retrieve credentials and brute-forcing SSH access.
+
+4. **MySQL Enumeration and Exploitation**: Extracting credentials, dumping database schemas, and cracking password hashes to access other services.
+
+Each section will explain how these services interact and demonstrate how a small piece of information obtained from one service can lead to full system compromise when chained together. We’ll use tools, commands, and techniques relevant to real-world penetration testing scenarios.
+
+1. ## Understanding NFS
 
 #### What is NFS?
-NFS stands for `Network File System` and allows a system to share directories and files with others over a network.
-#### How does NFS work?
-1.  The client will request to `mount` a directory from a remote host on a local directory.
-2. The mount service will then act to connect to the relevant mount daemon using `RPC`.
-3. The server checks if the user has permission to mount whatever directory has been requested.
-4. It will then return a `file handle` which uniquely identifies each file and directory that is on the server.
-#### What runs NFS?
-Using the NFS protocol, you can transfer files between computers running `Windows` and other non-Windows operating systems, such as `Linux`, MacOS or UNIX.
+Network File System (NFS) allows systems to share directories and files over a network, enabling seamless access across devices. It is widely used in environments requiring shared storage.
 
-   **_Answers_**
+NFS facilitates shared access to files and directories across platforms like Windows, Linux, and macOS. However, its misconfigurations, such as improper permissions or disabled root squashing, often create security vulnerabilities. 
+
+#### How NFS Works
+![image](image.png)
+
+1. Mounting a Directory: A client requests to mount a directory from the NFS server.
+
+2. Remote Procedure Call (RPC): The mount service communicates with the NFS daemon using RPC.
+
+3. Permission Check: The server validates access permissions for the user.
+
+4. File Handle Assignment: The server provides a unique file handle to access files and directories.
+
+
+
+**_THM Section Answers_**
    
 ![image](https://github.com/user-attachments/assets/9ca8078b-d3c0-4917-9495-7498e6006e9e)
 
-## Enumerating NFS
+2. ## Enumerating NFS
 
 #### What is Enumeration?
-the process which establishes an active connection to the target hosts to discover potential attack vectors in the system, and the same can be used for further exploitation of the system.
-##### Enumeration is used to gather the following:
- Usernames, group names ,Hostnames, Network shares and services, IP tables and routing tables
- Service settings and audit configurations, Application and banners, SNMP and DNS details
-#### NFS-Common
-It's a package includes programs such as: lockd, statd, showmount, nfsstat, gssd, idmapd and mount.nfs.
-We are concerned with `showmount` and `mount.nfs` as these are useful when it comes to extracting information from the NFS share.to install use:
 
-    sudo apt-get install nfs-common
+Enumeration involves establishing an active connection to a target host to extract details such as usernames, services, network shares, and configurations. For NFS, tools like `nfs-common` and `showmount` are particularly useful.
+
+#### Steps for NFS Enumeration
+
+1. **Port Scanning** : Use `nmap` to identify open ports and services.
+  > nmap -A -p- <target-IP>
+2. **Inspect NFS Shares**:list all available NFS shares using showmount:
+  > showmount -e <target-IP>
+3. **Mounting the Share**:Mount the NFS share locally to access its contents.
+  > sudo mount -t nfs <IP>:<share> /tmp/mount/ -nolock
+
+
     
-#### Enumeration steps
-1. **Port scanning** :to find out as much information as you can about the services, open ports and operating system of the target machine using `nmap` with the `-A` and `-p-` tags.
-2. **Mounting NFS shares** : The client’s system needs a directory where all the content shared by the host server in the export folder can be accessed.create
-this folder anywhere on your system.Now, use the "mount" command to connect the NFS share to the mount point on client's machine.
-##### creat the mount point with
+**_THM Section Answers_**
 
-    sudo mount -t nfs IP:share /tmp/mount/ -nolock
-    
-**_Answers_**
-
-1. Conduct a thorough port scan scan of your choosing, how many ports are open?
+1. Conduct a thorough port scan of your choosing, how many ports are open?
 
 ![image](https://github.com/user-attachments/assets/d460f3f2-c5ef-46ad-8500-f16f63eb7488)
 
@@ -68,15 +88,21 @@ this folder anywhere on your system.Now, use the "mount" command to connect the 
 
 
 ## Exploiting NFS
+#### Root Squashing and Its Risks
+NFS often enables root squashing by default, which maps root user requests to a non-privileged user. If disabled, attackers can create files with the SUID bit (means The files can be run with the permissions of the file(s) owner/group.), granting root access.
 
-- Root Squashing is enabled by default on `NFS shares`, and prevents anyone connecting to the NFS share from having `root` access to the NFS volume.
-- If the root squashing is turned off, it can allow the creation of `SUID` bit files, allowing a remote user root access to the connected system.
-  
-##### What are files with the SUID bit set?
+#### Exploitation Steps
+1.  **Copy a Malicious Binary**: Copy a bash binary to the NFS share and set its owner to root.
+  > sudo cp /bin/bash /tmp/mount/
+  > sudo chown root:root /tmp/mount/bash
+2. **Set the SUID Bit**: Add SUID permission to the binary.
+  > sudo chmod +s /tmp/mount/bash
+3. **Execute as Root**: Run the binary with elevated privileges.
+  > ./bash -p
 
-The files can be run with the permissions of the file(s) owner/group.
 
-**_Answers_**
+
+**_THM Section Answers_**
 
 1. First, change directory to the mount point on your machine, where the NFS share should still be mounted, and then into the user's home directory.(password:password)
      
@@ -119,11 +145,11 @@ second: change the file owner by a root user
 
 ![image](https://github.com/user-attachments/assets/7e70a7be-9406-4d06-97d3-05bafaa108a7)
 
-9.what username is returned?
+9. what username is returned?
 
 ![image](https://github.com/user-attachments/assets/b76645a5-80d2-4a6b-b154-8fb5649f271b)
 
-## Exploiting SMTP
+4. SMTP Enumeration and Exploitation
 
 In the Enumeration section, we obtained key information: a user account name, the SMTP server type, and the operating system. The only other open port is SSH, which we'll attempt to brute-force using Hydra to gain access.
 
