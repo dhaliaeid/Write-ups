@@ -9,11 +9,13 @@ We’ll cover the following topics:
 1. **NFS Basics, Enumeration and xploitation**: Understanding how NFS operates,  enumerating shares, and identifying misconfigurations.
 Also Gaining root access through SUID exploitation when root squashing is disabled.
 
-3. **SMTP Enumeration and Exploitation**: Using enumeration techniques to retrieve credentials and brute-forcing SSH access.
+3. **SMTP Basic, Enumeration and Exploitation**: Using enumeration techniques to retrieve credentials and brute-forcing SSH access.
 
-4. **MySQL Enumeration and Exploitation**: Extracting credentials, dumping database schemas, and cracking password hashes to access other services.
+4. **MySQL Basic  Enumeration and Exploitation**: Extracting credentials, dumping database schemas, and cracking password hashes to access other services.
 
 Each section will explain how these services interact and demonstrate how a small piece of information obtained from one service can lead to full system compromise when chained together. We’ll use tools, commands, and techniques relevant to real-world penetration testing scenarios.
+
+
 
 1. ## Understanding NFS
 
@@ -23,21 +25,27 @@ Network File System (NFS) allows systems to share directories and files over a n
 NFS facilitates shared access to files and directories across platforms like Windows, Linux, and macOS. However, its misconfigurations, such as improper permissions or disabled root squashing, often create security vulnerabilities. 
 
 #### How NFS Works
-![image](image.png)
 
-1. Mounting a Directory: A client requests to mount a directory from the NFS server.
+![image](https://github.com/user-attachments/assets/9773bad1-d8c6-4a92-98e6-7db4ea1a0986)
 
-2. Remote Procedure Call (RPC): The mount service communicates with the NFS daemon using RPC.
+###### _ figure 1_
 
-3. Permission Check: The server validates access permissions for the user.
+1. **Mounting a Directory**: A client requests to mount a directory from the NFS server.
 
-4. File Handle Assignment: The server provides a unique file handle to access files and directories.
+2. **Remote Procedure Call (RPC)**: The mount service communicates with the NFS daemon using RPC.
+
+3. **Permission Check**: The server validates access permissions for the user.
+
+4. **File Handle Assignment**: The server provides a unique file handle to access files and directories.
 
 
 
 **_THM Section Answers_**
+
    
 ![image](https://github.com/user-attachments/assets/9ca8078b-d3c0-4917-9495-7498e6006e9e)
+
+
 
 2. ## Enumerating NFS
 
@@ -343,6 +351,11 @@ Use John the Ripper to crack MySQL password hashes:
 7. Awesome. Password reuse is not only extremely dangerous, but extremely common. What are the chances that this user has reused their password for a different service? What's the contents of MySQL.txt?
 
 ![image](https://github.com/user-attachments/assets/036c8bfa-7cf0-40c8-8767-030bc21f9e6d)
+
+
+
+
+
 
 
 
