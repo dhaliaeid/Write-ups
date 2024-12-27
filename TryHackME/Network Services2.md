@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/f7f7f1fd-79b8-4419-aaf7-6f6f24e1e385)# Network services 2(NFS, SMTP, and MySQL)
+# Network services 2(NFS, SMTP, and MySQL)
 
 ## Overview
 
