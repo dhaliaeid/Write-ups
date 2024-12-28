@@ -1,4 +1,4 @@
-# Network services 2(NFS, SMTP, and MySQL)
+# Network services 2 (NFS, SMTP, and MySQL)
 
 ## Overview
 
@@ -13,8 +13,8 @@ We’ll cover the following topics:
 Each section will explain how these services interact and demonstrate how a small piece of information obtained from one service can lead to full system compromise when chained together. We’ll use tools, commands, and techniques relevant to real-world penetration testing scenarios.
 
 
-____
-## Understanding NFS
+
+## 1.1) Understanding NFS
 
 #### What is NFS?
 Network File System (NFS) allows systems to share directories and files over a network, enabling seamless access across devices. It is widely used in environments requiring shared storage.
@@ -43,7 +43,7 @@ NFS facilitates shared access to files and directories across platforms like Win
 ![image](https://github.com/user-attachments/assets/9ca8078b-d3c0-4917-9495-7498e6006e9e)
 
 ______
-## Enumerating NFS
+## 1.2) Enumerating NFS
 
 #### What is Enumeration?
 
@@ -91,7 +91,7 @@ Enumeration involves establishing an active connection to a target host to extra
 ![image](https://github.com/user-attachments/assets/c909cad3-1f57-4c30-b3a5-14ece34c4cde)
 
 ___
-## Exploiting NFS
+## 1.3) Exploiting NFS
 
 #### Root Squashing and Its Risks
 NFS often enables root squashing by default, which maps root user requests to a non-privileged user. If disabled, attackers can create files with the SUID bit (means The files can be run with the permissions of the file(s) owner/group.), granting root access.
@@ -156,7 +156,7 @@ second: change the file owner by a root user
 
 
 ___
-## Understanding STMP
+## 2.1) Understanding STMP
 SMTP (Simple Mail Transfer Protocol) is a standard protocol used for sending emails. It works alongside POP (Post Office Protocol) or IMAP (Internet Message Access Protocol) to handle email communication, where SMTP manages outgoing mail while POP/IMAP handles incoming mail.
 
 #### Key Functions of an SMTP Server:
@@ -170,10 +170,11 @@ SMTP server software is available for windows(Native server options) and linux (
 #### How SMTP Works
 SMTP operates like a digital postal service, delivering emails through a structured process:
 
+![image](https://github.com/user-attachments/assets/8069edc0-4d63-4f53-86f0-f46bf8ab097d)
+
 
 ![image](https://github.com/user-attachments/assets/73d09d95-6918-4eb1-b3b0-68fb854c9412)
-
-
+   ###### _figure2_
 1. **Connection**: Your email client connects to the SMTP server (e.g., smtp.google.com) via port 25, initiating an SMTP handshake.
 2. **Email Submission**: The client sends the sender’s address, recipient’s address, email body, and attachments to the SMTP server.
 3. **Domain Check**: The SMTP server verifies whether the sender’s and recipient’s domains match.
@@ -186,7 +187,7 @@ SMTP operates like a digital postal service, delivering emails through a structu
 
 ![image](https://github.com/user-attachments/assets/f1d679d1-9a91-4d6e-bc23-4451a5941de0)
 ______
-## SMTP Enumeration
+## 2.2) Enumerating STMP
 
 SMTP (Simple Mail Transfer Protocol) is not only essential for email communication but can also be leveraged for reconnaissance during a penetration test or attack. By enumerating server details and users, an attacker can gather crucial information, such as vulnerable mail server versions and valid email addresses, to further their exploit efforts.
 1. **Server Fingerprinting with Metasploit**
@@ -198,7 +199,7 @@ SMTP also provides two internal commands, VRFY and EXPN, that can be exploited t
 Using these commands, an attacker can gather a list of valid users or identify valuable targets. While these commands can be tested manually via Telnet, Metasploit’s smtp_enum module automates this process, making it easier and faster to enumerate users.
 
 ___
-## STMP Exploitation
+## 2.3) Exploiting STMP
 
 #### SMTP Overview
 
@@ -225,7 +226,7 @@ SMTP (Simple Mail Transfer Protocol) is primarily used for email transmission. I
 ![image](https://github.com/user-attachments/assets/eef21be2-a0e5-4c62-9b77-d61d1a5b0ecd)
 
 ____
-## Understanding MySQL
+## 3.1) Understanding MySQL
 
 MySQL is a popular open-source Relational Database Management System (RDBMS) that utilizes SQL (Structured Query Language) to manage and manipulate structured data. It organizes data into tables that can be related to each other through keys. It’s widely used in various applications, from web development to enterprise systems, due to its speed, reliability, and ease of use.
 
@@ -252,7 +253,7 @@ MySQL follows a client-server architecture where the client sends requests to th
 
 
 ___
-## Enumerating MySQL
+## 3.2) Enumerating MySQL
 
 #### When to Target MySQL
 
@@ -296,7 +297,7 @@ This tool enables you to connect to the MySQL database server and execute SQL co
 
 
 ___
-## Exploit SQL
+## Exploiting MySQL
 
 #### Current Knowledge Recap
 Before further exploiting the MySQL database, here’s what we know:
@@ -352,7 +353,10 @@ Use John the Ripper to crack MySQL password hashes:
 
 
 
-
+## References 
+**figures**
+1.https://www.lysator.liu.se/~mats-g/pubs/Lic/node27.html
+2. 
 
 
 
