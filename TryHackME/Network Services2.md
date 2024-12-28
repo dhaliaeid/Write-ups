@@ -361,7 +361,7 @@ Use John the Ripper to crack MySQL password hashes:
 
 
 ## References 
-**figures**
+**Figures**
 
 1.[figure1](https://www.lysator.liu.se/~mats-g/pubs/Lic/node27.html)
 
