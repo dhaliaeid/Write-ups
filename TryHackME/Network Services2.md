@@ -161,10 +161,13 @@ SMTP (Simple Mail Transfer Protocol) is a standard protocol used for sending ema
 
 #### Key Functions of an SMTP Server:
 **Authentication**: Verifies the sender's identity.
+
 **Mail Delivery**: Sends outgoing mail to the recipient's server.
+
 **Error Handling**: Returns undelivered mail to the sender.
 
 SMTP configuration is often required when setting up email clients (e.g., Thunderbird) for outgoing emails.
+
 SMTP server software is available for windows(Native server options) and linux (Multiple open-source SMTP variants).
 
 #### How SMTP Works
@@ -208,9 +211,9 @@ SMTP (Simple Mail Transfer Protocol) is primarily used for email transmission. I
 
 ##### Steps for Exploitation
 1. **Enumerate Users**: Use tools like Hydra to brute-force user credentials.
->> hydra -t 16 -l <username> -P <wordlist> <IP> smtp
+> hydra -t 16 -l <username> -P <wordlist> <IP> smtp
 2. **Brute-Force SSH**: Use retrieved credentials to brute-force SSH access.
->> hydra -t 16 -l <username> -P <wordlist> <IP> ssh
+> hydra -t 16 -l <username> -P <wordlist> <IP> ssh
 
 **_THM Section Answers_**
 
