@@ -57,11 +57,11 @@ Enumeration involves establishing an active connection to a target host to extra
    
 2. **Inspect NFS Shares**:list all available NFS shares using showmount:
    
-  `showmount -e <target-IP>`
+  ``showmount -e <target-IP>``
   
 3. **Mounting the Share**:Mount the NFS share locally to access its contents.
    
-  `sudo mount -t nfs <IP>:<share> /tmp/mount/ -nolock`
+  ``sudo mount -t nfs <IP>:<share> /tmp/mount/ -nolock``
 
 
     
