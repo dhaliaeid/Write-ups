@@ -362,9 +362,9 @@ Use John the Ripper to crack MySQL password hashes:
 
 ## References 
 **figures**
-1.https://www.lysator.liu.se/~mats-g/pubs/Lic/node27.html
-2. https://blog.ishosting.com/en/what-is-smtp
-3.https://www.tutorialsweb.com/sql/how-mysql-works.htm
+1.[figure1](https://www.lysator.liu.se/~mats-g/pubs/Lic/node27.html)
+2.[figure2](https://blog.ishosting.com/en/what-is-smtp)
+3.[figure3](https://www.tutorialsweb.com/sql/how-mysql-works.htm)
 
 
 
