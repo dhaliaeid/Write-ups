@@ -6,18 +6,15 @@ This write-up focuses on exploring and exploiting various network services, with
 
 We’ll cover the following topics:
 
-1. **NFS Basics, Enumeration and xploitation**: Understanding how NFS operates,  enumerating shares, and identifying misconfigurations.
-Also Gaining root access through SUID exploitation when root squashing is disabled.
 
-3. **SMTP Basic, Enumeration and Exploitation**: Using enumeration techniques to retrieve credentials and brute-forcing SSH access.
+![image](https://github.com/user-attachments/assets/c3734f5c-dbf5-43a6-ba17-acb0f3112366)
 
-4. **MySQL Basic  Enumeration and Exploitation**: Extracting credentials, dumping database schemas, and cracking password hashes to access other services.
 
 Each section will explain how these services interact and demonstrate how a small piece of information obtained from one service can lead to full system compromise when chained together. We’ll use tools, commands, and techniques relevant to real-world penetration testing scenarios.
 
 
-
-1. ## Understanding NFS
+____
+## Understanding NFS
 
 #### What is NFS?
 Network File System (NFS) allows systems to share directories and files over a network, enabling seamless access across devices. It is widely used in environments requiring shared storage.
@@ -28,7 +25,7 @@ NFS facilitates shared access to files and directories across platforms like Win
 
 ![image](https://github.com/user-attachments/assets/9773bad1-d8c6-4a92-98e6-7db4ea1a0986)
 
-###### _ figure 1_
+   ###### _figure 1_
 
 1. **Mounting a Directory**: A client requests to mount a directory from the NFS server.
 
@@ -39,16 +36,13 @@ NFS facilitates shared access to files and directories across platforms like Win
 4. **File Handle Assignment**: The server provides a unique file handle to access files and directories.
 
 
-___
+
 **_THM Section Answers_**
 
    
 ![image](https://github.com/user-attachments/assets/9ca8078b-d3c0-4917-9495-7498e6006e9e)
 
-
-</>
-</>
-
+______
 ## Enumerating NFS
 
 #### What is Enumeration?
@@ -96,8 +90,9 @@ Enumeration involves establishing an active connection to a target host to extra
 
 ![image](https://github.com/user-attachments/assets/c909cad3-1f57-4c30-b3a5-14ece34c4cde)
 
-
+___
 ## Exploiting NFS
+
 #### Root Squashing and Its Risks
 NFS often enables root squashing by default, which maps root user requests to a non-privileged user. If disabled, attackers can create files with the SUID bit (means The files can be run with the permissions of the file(s) owner/group.), granting root access.
 
@@ -160,7 +155,7 @@ second: change the file owner by a root user
 ![image](https://github.com/user-attachments/assets/b76645a5-80d2-4a6b-b154-8fb5649f271b)
 
 
-
+___
 ## Understanding STMP
 SMTP (Simple Mail Transfer Protocol) is a standard protocol used for sending emails. It works alongside POP (Post Office Protocol) or IMAP (Internet Message Access Protocol) to handle email communication, where SMTP manages outgoing mail while POP/IMAP handles incoming mail.
 
@@ -190,7 +185,7 @@ SMTP operates like a digital postal service, delivering emails through a structu
 
 
 ![image](https://github.com/user-attachments/assets/f1d679d1-9a91-4d6e-bc23-4451a5941de0)
-
+______
 ## SMTP Enumeration
 
 SMTP (Simple Mail Transfer Protocol) is not only essential for email communication but can also be leveraged for reconnaissance during a penetration test or attack. By enumerating server details and users, an attacker can gather crucial information, such as vulnerable mail server versions and valid email addresses, to further their exploit efforts.
@@ -202,8 +197,8 @@ SMTP also provides two internal commands, VRFY and EXPN, that can be exploited t
 **EXPN**: Reveals mailing lists and the actual addresses of aliases.
 Using these commands, an attacker can gather a list of valid users or identify valuable targets. While these commands can be tested manually via Telnet, Metasploit’s smtp_enum module automates this process, making it easier and faster to enumerate users.
 
-
-##STMP Exploitation
+___
+## STMP Exploitation
 
 #### SMTP Overview
 
@@ -229,7 +224,7 @@ SMTP (Simple Mail Transfer Protocol) is primarily used for email transmission. I
 
 ![image](https://github.com/user-attachments/assets/eef21be2-a0e5-4c62-9b77-d61d1a5b0ecd)
 
-
+____
 ## Understanding MySQL
 
 MySQL is a popular open-source Relational Database Management System (RDBMS) that utilizes SQL (Structured Query Language) to manage and manipulate structured data. It organizes data into tables that can be related to each other through keys. It’s widely used in various applications, from web development to enterprise systems, due to its speed, reliability, and ease of use.
@@ -256,7 +251,7 @@ MySQL follows a client-server architecture where the client sends requests to th
 ![image](https://github.com/user-attachments/assets/da728627-22d6-4d25-af8c-c9e58b1a9026)
 
 
-
+___
 ## Enumerating MySQL
 
 #### When to Target MySQL
@@ -300,7 +295,7 @@ This tool enables you to connect to the MySQL database server and execute SQL co
 ![image](https://github.com/user-attachments/assets/a94f2a8f-15e6-481c-b1c4-4d56e279ec46)
 
 
-
+___
 ## Exploit SQL
 
 #### Current Knowledge Recap
