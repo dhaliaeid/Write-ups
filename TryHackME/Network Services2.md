@@ -172,9 +172,8 @@ SMTP operates like a digital postal service, delivering emails through a structu
 
 ![image](https://github.com/user-attachments/assets/8069edc0-4d63-4f53-86f0-f46bf8ab097d)
 
-
-![image](https://github.com/user-attachments/assets/73d09d95-6918-4eb1-b3b0-68fb854c9412)
    ###### _figure2_
+   
 1. **Connection**: Your email client connects to the SMTP server (e.g., smtp.google.com) via port 25, initiating an SMTP handshake.
 2. **Email Submission**: The client sends the sender’s address, recipient’s address, email body, and attachments to the SMTP server.
 3. **Domain Check**: The SMTP server verifies whether the sender’s and recipient’s domains match.
@@ -241,7 +240,7 @@ MySQL runs on various platforms (e.g., Linux, Windows) and is widely used as a b
 MySQL follows a client-server architecture where the client sends requests to the MySQL server, which processes those requests and returns the required data.
 
 ![image](https://github.com/user-attachments/assets/adab0bdc-f49c-46c3-81d6-72e498d608dc)
-
+   ###### _figure3_
 **Steps in MySQL Operations:**
 1. **Database Creation**: The server creates a database with defined relationships between tables.
 2. **Client Requests**: Clients use SQL commands to interact with the database, such as querying for data or modifying tables.
@@ -272,7 +271,7 @@ efore interacting with MySQL, ensure the MySQL client is installed on your syste
 This tool enables you to connect to the MySQL database server and execute SQL commands for enumeration and exploitation.
 
 **Steps of Enumeration**
-1. **Identify Running Port**: Use nmap to locate the MySQL service.
+1.  **Identify Running Port**: Use nmap to locate the MySQL service.
 >>  nmap -p 3306 <target-IP>
       
 **_THM Section Answers_**
@@ -296,7 +295,7 @@ This tool enables you to connect to the MySQL database server and execute SQL co
 ![image](https://github.com/user-attachments/assets/a94f2a8f-15e6-481c-b1c4-4d56e279ec46)
 
 
-___
+- -
 ## Exploiting MySQL
 
 #### Current Knowledge Recap
@@ -356,7 +355,8 @@ Use John the Ripper to crack MySQL password hashes:
 ## References 
 **figures**
 1.https://www.lysator.liu.se/~mats-g/pubs/Lic/node27.html
-2. 
+2. https://blog.ishosting.com/en/what-is-smtp
+3.https://www.tutorialsweb.com/sql/how-mysql-works.htm
 
 
 
