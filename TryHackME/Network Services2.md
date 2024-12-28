@@ -325,7 +325,9 @@ Before further exploiting the MySQL database, here’s what we know:
 3. Number of databases and their names.
 
 #### Key Terminology
+
 **Schema**: In MySQL, schema is interchangeable with database. For example, `CREATE SCHEMA` can be used in place of `CREATE DATABASE`. Note that in some database systems, like Oracle, schema only refers to part of a database (tables and objects owned by a user).
+
 **Hashes**: A cryptographic process that turns variable-length input into a fixed-length output. In MySQL, hashes are used for password storage (protecting against plaintext storage) and data indexing, enabling efficient searching and access.
 
 **Steps for Exploitation**
