@@ -39,15 +39,17 @@ NFS facilitates shared access to files and directories across platforms like Win
 4. **File Handle Assignment**: The server provides a unique file handle to access files and directories.
 
 
-
+___
 **_THM Section Answers_**
 
    
 ![image](https://github.com/user-attachments/assets/9ca8078b-d3c0-4917-9495-7498e6006e9e)
 
 
+</>
+</>
 
-2. ## Enumerating NFS
+## Enumerating NFS
 
 #### What is Enumeration?
 
