@@ -4,13 +4,8 @@
 
 This write-up focuses on exploring and exploiting various network services, with a primary emphasis on NFS (Network File System). Additionally, we delve into the enumeration and exploitation of SMTP and MySQL services. Each section is interconnected, showing how vulnerabilities in these services can provide a pathway for attackers to infiltrate systems. By following this structured guide, you’ll gain an understanding of the practical applications of enumeration techniques, misconfiguration exploitation, and lateral movement strategies commonly used in penetration testing.
 
-We’ll cover the following topics:
-
 
 ![image](https://github.com/user-attachments/assets/c3734f5c-dbf5-43a6-ba17-acb0f3112366)
-
-
-Each section will explain how these services interact and demonstrate how a small piece of information obtained from one service can lead to full system compromise when chained together. We’ll use tools, commands, and techniques relevant to real-world penetration testing scenarios.
 
 
 
